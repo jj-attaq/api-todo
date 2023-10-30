@@ -1,31 +1,31 @@
 package main
 
 import (
-    "context"
-    "os"
-    "os/signal"
-    "syscall"
-    "time"
-    "net/http"
+	"context"
 	"log"
+	"net/http"
+	"os"
+	"os/signal"
+	"syscall"
+	"time"
 
 	"github.com/gin-gonic/gin"
-	"github.com/jj-attaq/api-todo/initializers"
+	"github.com/jj-attaq/api-todo/account/handler"
+	"github.com/jj-attaq/api-todo/account/initializers"
 )
 
 func init() {
 	initializers.LoadEnvVariables()
-	initializers.ConnDB()
+	// initializers.ConnDB()
 }
 
 func main() {
     log.Println("Starting server...")
+
     router := gin.Default()
 
-    router.GET("/api/account", func(c *gin.Context) {
-        c.JSON(http.StatusOK, gin.H{
-            "hello": "there",
-        })
+    handler.NewHandler(&handler.Config{
+        R: router,
     })
 
 	// Graceful shutdown
